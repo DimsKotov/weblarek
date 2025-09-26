@@ -9,10 +9,28 @@ export interface IApi {
   ): Promise<T>;
 }
 
-export type OrderDetails = {
-  customer: IBuyer;
-  products: string[];
-};
+export interface OrderItem {
+  id: string;
+  description?: string;
+  image?: string;
+  title?: string;
+  category?: string;
+  price?: number | null;
+}
+
+export interface OrderPayload {
+  payment: string;
+  email: string;
+  phone: string;
+  address: string;
+  total: number;
+  items: string[];
+}
+
+export interface ProductListResponse {
+  total: number;
+  items: object[];
+}
 
 export interface IProduct {
   id: string;

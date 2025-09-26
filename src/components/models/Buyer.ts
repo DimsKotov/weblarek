@@ -7,6 +7,14 @@ class Buyer {
   private phone: string = "";
   private address: string = "";
 
+  saveAddress(address: string): void {
+    this.address = address;
+  }
+
+  savePhone(phone: string): void {
+    this.phone = phone;
+  }
+
   saveData(
     payment: TPayment,
     email: string,
@@ -43,20 +51,23 @@ class Buyer {
   validate(): ValidationResult {
     let result: ValidationResult = {};
 
-    if (!["cash", "card"].includes(this.payment)) {
+    if (!this.payment) {
       result.payment = "Не выбран вид оплаты";
     }
 
-    if (!/\S+@\S+\.\S+/.test(this.email)) {
-      result.email = "Некорректный адрес электронной почты";
+    // Проверка email
+    if (!this.email) {
+      result.email = "Укажите емэйл";
     }
 
-    if (!/^\d+$/.test(this.phone)) {
-      result.phone = "Телефон должен содержать только цифры";
+    // Проверка номера телефона
+    if (!this.phone) {
+      result.phone = "Укажите телефон";
     }
 
-    if (!this.address.trim()) {
-      result.address = "Адрес доставки обязателен";
+    // Проверка адреса
+    if (!this.address) {
+      result.address = "Укажите адрес";
     }
 
     return result;
