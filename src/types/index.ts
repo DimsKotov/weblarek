@@ -9,27 +9,18 @@ export interface IApi {
   ): Promise<T>;
 }
 
-export interface OrderItem {
-  id: string;
-  description?: string;
-  image?: string;
-  title?: string;
-  category?: string;
-  price?: number | null;
+export interface ProductListResponse {
+  total: number;
+  items: IProduct[];
 }
 
-export interface OrderPayload {
+export interface OrderRequest {
   payment: string;
   email: string;
   phone: string;
   address: string;
   total: number;
-  items: string[];
-}
-
-export interface ProductListResponse {
-  total: number;
-  items: object[];
+  items: IProduct[];
 }
 
 export interface IProduct {
@@ -42,13 +33,6 @@ export interface IProduct {
 }
 
 export type TPayment = "cash" | "card";
-
-export interface IBuyer {
-  payment: TPayment;
-  email: string;
-  phone: string;
-  address: string;
-}
 
 export interface ValidationResult {
   payment?: string;

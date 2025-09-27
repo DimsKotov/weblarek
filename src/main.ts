@@ -8,7 +8,7 @@ import Api from "../src/components/server/Api";
 import { apiProducts } from "../src/utils/data";
 
 const api = new Api('https://larek-api.nomoreparties.co');
-console.log("Запрос на сервер", api)
+console.log("Запрос на сервер", api);
 
 const catalog = new Catalog();
 catalog.saveProducts(apiProducts.items);
@@ -50,24 +50,14 @@ console.log("Адрес доставки", buyer.getData().address);
 buyer.savePhone("+71234567890");
 console.log("Телефон", buyer.getData().phone);
 
-buyer.saveData(
-  "card",
-  "example@example.com",
-  "+71234567890",
-  "Spb Vosstania 1"
-);
-console.log("Данные покупателя", buyer.getData());
+buyer.savePayment('card')
+console.log("Способ оплаты", buyer.getData().payment);
+
+buyer.saveEmail('af@example.com')
+console.log("Электронная почта", buyer.getData().email);
 
 buyer.clearData();
 console.log("Очищаем данные", buyer.getData());
-
-buyer.saveData(
-  "card",
-  "example@example.com",
-  "+71234567890",
-  "Spb Vosstania 1"
-);
-console.log("Валидация", buyer.validate());
 
 const cart = new Cart();
 
