@@ -9,18 +9,21 @@ export interface IApi {
   ): Promise<T>;
 }
 
+export interface IBuyer {
+  payment: TPayment;
+  email: string;
+  phone: string;
+  address: string;
+}
+
 export interface ProductListResponse {
   total: number;
   items: IProduct[];
 }
 
-export interface OrderRequest {
-  payment: string;
-  email: string;
-  phone: string;
-  address: string;
+export interface OrderRequest extends IBuyer {
   total: number;
-  items: IProduct[];
+  items: string[];
 }
 
 export interface IProduct {

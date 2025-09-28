@@ -3,11 +3,11 @@ import "./scss/styles.scss";
 import Catalog from "../src/components/models/Catalog";
 import Cart from "../src/components/models/Cart";
 import Buyer from "../src/components/models/Buyer";
-import Api from "../src/components/server/Api";
+import ApiServer from "../src/components/server/Api";
 
 import { apiProducts } from "../src/utils/data";
 
-const api = new Api('https://larek-api.nomoreparties.co');
+const api = new ApiServer('https://larek-api.nomoreparties.co');
 console.log("Запрос на сервер", api);
 
 const catalog = new Catalog();
@@ -50,10 +50,10 @@ console.log("Адрес доставки", buyer.getData().address);
 buyer.savePhone("+71234567890");
 console.log("Телефон", buyer.getData().phone);
 
-buyer.savePayment('card')
+buyer.savePayment('card');
 console.log("Способ оплаты", buyer.getData().payment);
 
-buyer.saveEmail('af@example.com')
+buyer.saveEmail('af@example.com');
 console.log("Электронная почта", buyer.getData().email);
 
 buyer.clearData();

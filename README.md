@@ -158,10 +158,11 @@ Presenter - презентер содержит основную логику п
 `address: string` — Адрес доставки.
 
 Методы класса:
-`saveAddress` - Сохранение адреса покупателя.
-`savePhone` - Сохранение телефона покупателя.
-`saveData(payment: TPayment, email: string, phone: string, address: string)` - Сохранение всех данные покупателя.
-`getData()` - Возвращает полный объект с персональными данными покупателя.
+`saveAddress(address: string)` - Сохранение адреса покупателя.
+`savePhone(phone: string)` - Сохранение телефона покупателя.
+`saveEmail(phone: string)` - Сохранение телефона покупателя.
+`savePayment(phone: TPayment)` - Сохранение телефона покупателя.
+`getData(payment: TPayment, email: string, phone: string, address: string)` - Возвращает полный объект с персональными данными покупателя.
 `clearData()` - Очищает данные покупателя.
 `validate(): ValidationResult` - Проверяет правильность введенных данных и возвращает объект с результатами проверки. Поля объекта содержащие ошибку, содержат строку с описанием проблемы.
 
@@ -178,6 +179,6 @@ Presenter - презентер содержит основную логику п
 `api: IApi` — Базовый адрес сервера API.
 
 Методы класса:
-`fetchProducts()` - Возвращает список всех доступных продуктов с сервера. Результат представляет собой массив объектов.
-`sendOrder(customerData: {name: string; email: string}, productIds: number[])` - Формирует заказ клиента и отправляет его на сервер методом POST.
+`fetchProducts(): Promise<ProductListResponse>` - Возвращает список всех доступных продуктов с сервера. Результат представляет собой массив объектов.
+`sendOrder(order: OrderRequest): Promise<object>` - Формирует заказ клиента и отправляет его на сервер методом POST.
 

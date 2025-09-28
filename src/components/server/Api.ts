@@ -1,7 +1,7 @@
 import { IApi } from "../../types";
-import { ProductListResponse } from "../../types";
+import { ProductListResponse, OrderRequest } from "../../types";
 
-class Api {
+class ApiServer {
   private api: IApi;
 
   constructor(api: IApi) {
@@ -12,24 +12,9 @@ class Api {
     return await this.api.get<ProductListResponse>("products");
   }
 
-  public async sendOrder(
-    customerData: { name: string; email: string },
-    productIds: number[],
-    paymentMethod: string,
-    deliveryAddress: string,
-    phoneNumber: string,
-    totalAmount: number
-  ): Promise<object> {
-    const orderDetails = {
-      payment: paymentMethod,
-      email: customerData.email,
-      phone: phoneNumber,
-      address: deliveryAddress,
-      total: totalAmount,
-      items: productIds.map((id) => String(id)),
-    };
-    return await this.api.post("orders", orderDetails);
+  public async sendOrder(order: OrderRequest): Promise<object> {
+    return await this.api.post("orders", order);
   }
 }
 
-export default Api;
+export default ApiServer;
