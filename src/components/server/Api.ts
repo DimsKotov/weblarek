@@ -1,5 +1,5 @@
 import { IApi } from "../../types";
-import { ProductListResponse, OrderRequest } from "../../types";
+import { ProductListResponse, OrderRequest, OrderResponse } from "../../types";
 
 class ApiServer {
   private api: IApi;
@@ -12,8 +12,8 @@ class ApiServer {
     return await this.api.get<ProductListResponse>("products");
   }
 
-  public async sendOrder(order: OrderRequest): Promise<object> {
-    return await this.api.post("orders", order);
+  public async sendOrder(order: OrderRequest): Promise<OrderResponse> {
+    return await this.api.post<OrderResponse>("orders", order);
   }
 }
 

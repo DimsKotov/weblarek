@@ -43,3 +43,8 @@ export interface ValidationResult {
   phone?: string;
   address?: string;
 }
+
+export interface OrderResponse {
+  success: boolean;
+  message: string;
+}
