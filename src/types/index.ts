@@ -45,6 +45,6 @@ export interface ValidationResult {
 }
 
 export interface OrderResponse {
-  success: boolean;
-  message: string;
+  id: string;
+  total: number;
 }
