@@ -1,20 +1,18 @@
 import { IApi } from "../../types";
 import { ProductListResponse, OrderRequest, OrderResponse } from "../../types";
 
-class ApiServer {
+export class ApiServer {
   private api: IApi;
 
   constructor(api: IApi) {
     this.api = api;
   }
 
-  public async fetchProducts(): Promise<ProductListResponse> {
-    return await this.api.get<ProductListResponse>("products");
+  public fetchProducts(): Promise<ProductListResponse> {
+    return this.api.get<ProductListResponse>('/product/');
   }
 
-  public async sendOrder(order: OrderRequest): Promise<OrderResponse> {
-    return await this.api.post<OrderResponse>("orders", order);
+  public sendOrder(order: OrderRequest): Promise<OrderResponse> {
+    return this.api.post<OrderResponse>('/order/', order);
   }
 }
-
-export default ApiServer;

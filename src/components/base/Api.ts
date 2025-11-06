@@ -1,6 +1,6 @@
 type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
 
-export class Api {
+export class Api  {
     readonly baseUrl: string;
     protected options: RequestInit;
 
@@ -9,7 +9,7 @@ export class Api {
         this.options = {
             headers: {
                 'Content-Type': 'application/json',
-                ...(options.headers as object ?? {})
+                ...(options.headers as object ?? {}) // Объединяем заголовки, переданные извне с дефолтными значениями
             }
         };
     }

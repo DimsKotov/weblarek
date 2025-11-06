@@ -1,11 +1,18 @@
 import { TPayment } from "../../types";
 import { ValidationResult } from "../../types";
+import { IBuyer } from "../../types";
+import { IEvents } from "../base/Events";
 
-class Buyer {
+export class Buyer {
   private payment: TPayment = "cash";
   private email: string = "";
   private phone: string = "";
   private address: string = "";
+  private events: IEvents;
+
+  constructor(events: IEvents) {
+    this.events = events;
+  }
 
   savePayment(payment: TPayment): void {
     this.payment = payment;
@@ -37,11 +44,21 @@ class Buyer {
     };
   }
 
+  setData(data: Partial<IBuyer>): void {
+    if (data.payment !== undefined) this.payment = data.payment;
+    if (data.address !== undefined) this.address = data.address;
+    if (data.phone !== undefined) this.phone = data.phone;
+    if (data.email !== undefined) this.email = data.email;
+    this.events.emit("data:change");
+    
+  }
+
   clearData(): void {
     this.payment = "cash";
     this.email = "";
     this.phone = "";
     this.address = "";
+    this.events.emit("data:change");
   }
 
   validate(): ValidationResult {
@@ -50,15 +67,15 @@ class Buyer {
     if (!this.payment) {
       result.payment = "Не выбран вид оплаты";
     }
-    
+
     if (!this.email) {
       result.email = "Укажите емэйл";
     }
-    
+
     if (!this.phone) {
       result.phone = "Укажите телефон";
     }
-    
+
     if (!this.address) {
       result.address = "Укажите адрес";
     }
@@ -66,5 +83,3 @@ class Buyer {
     return result;
   }
 }
-
-export default Buyer;
