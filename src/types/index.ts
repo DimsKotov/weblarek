@@ -35,7 +35,7 @@ export interface IProduct {
   price: number | null;
 }
 
-export type TPayment = "cash" | "card";
+export type TPayment = "cash" | "card" | '';
 
 export interface ValidationResult {
   payment?: string;

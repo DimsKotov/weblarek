@@ -30,18 +30,18 @@ export abstract class Form<IForm> extends Component<IForm> {
     });
   }
 
-  protected inputChange(field: keyof IBuyer, value: string | null) {
+  protected inputChange(field: keyof IBuyer, value: string | null) { //При изменении значения какого-то поля форма вызывает событие "form:change" и передаёт объект с двумя свойствами:
     this.events.emit("form:change", {
       field,
       value,
     });
   }
 
-  setValid(isValid: boolean) {
+  set valid(isValid: boolean) {
     this.submitBtn.disabled = !isValid;
   }
 
-  setErrors(message: string | null) {
+  set errors(message: string | null) {
     this.errorContainer.textContent = message ?? "";
   }
 }

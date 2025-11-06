@@ -4,7 +4,7 @@ import { IBuyer } from "../../types";
 import { IEvents } from "../base/Events";
 
 export class Buyer {
-  private payment: TPayment = "cash";
+  private payment: TPayment = "";
   private email: string = "";
   private phone: string = "";
   private address: string = "";
@@ -12,22 +12,6 @@ export class Buyer {
 
   constructor(events: IEvents) {
     this.events = events;
-  }
-
-  savePayment(payment: TPayment): void {
-    this.payment = payment;
-  }
-
-  savePhone(phone: string): void {
-    this.phone = phone;
-  }
-
-  saveEmail(email: string): void {
-    this.email = email;
-  }
-
-  saveAddress(address: string): void {
-    this.address = address;
   }
 
   getData(): {
@@ -49,16 +33,15 @@ export class Buyer {
     if (data.address !== undefined) this.address = data.address;
     if (data.phone !== undefined) this.phone = data.phone;
     if (data.email !== undefined) this.email = data.email;
-    this.events.emit("data:change");
-    
+    this.events.emit("data:change");    
   }
 
   clearData(): void {
-    this.payment = "cash";
+    this.payment = "";
     this.email = "";
     this.phone = "";
     this.address = "";
-    this.events.emit("data:change");
+    this.events.emit("data:change");    
   }
 
   validate(): ValidationResult {
@@ -69,7 +52,7 @@ export class Buyer {
     }
 
     if (!this.email) {
-      result.email = "Укажите емэйл";
+      result.email = "Укажите Email";
     }
 
     if (!this.phone) {
