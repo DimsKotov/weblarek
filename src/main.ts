@@ -172,10 +172,9 @@ events.on('data:change', () => {
   const formData = {
     payment: buyer.getData().payment,
     address: buyer.getData().address,
-    buttonStatus: !isValid ? false : true,  
-    errors: payment || address,
+    buttonStatus: !isValid, 
+    errors: payment || address
   };
-
   
   order.render(formData);
 });
