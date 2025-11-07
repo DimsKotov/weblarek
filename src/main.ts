@@ -79,13 +79,6 @@ events.on("basket:open", () => {
   //Открытие модалки корзины
   modal.render({ content: basket.render() });
   modal.openModal();
-  const isEmpty = basket.isEmpty(); // Проверяем корзину через метод isEmpty()
-  if (isEmpty) {
-    basket.buttonStatus = true;
-    basket.listOfProducts = ["Корзина пуста"];
-  } else {
-    basket.buttonStatus = false;
-  }
 });
 
 events.on("card:select", (selectedItem: IProduct) => {
@@ -99,10 +92,12 @@ events.on("catalog:select", () => {
   let buttonText;
   if (product) {
     const isInCart = cart.hasItem(product.id);
-    if (product.price) {
-      buttonText = isInCart ? "Удалить из корзины" : "Купить";
-    } else {
-      buttonText = "Недоступно";
+    if (product) {
+      buttonText = isInCart
+        ? "Удалить из корзины"
+        : product.price
+        ? "Купить"
+        : "Недоступно";
     }
   }
   modal.content = cardPreview.render({
@@ -122,6 +117,8 @@ events.on("card:button", () => {
       modal.closeModal();
     } else {
       cart.addItem(selectedProduct);
+      let buttonText = "Удалить из корзины";
+      modal.content = cardPreview.render({ buttonText });
     }
   }
 });
@@ -135,9 +132,14 @@ events.on("cart:change", () => {
     );
     return cardBasket.render({ ...item, index: index + 1 });
   });
-
-  basket.totalCounter = `${cart.getTotalPrice()}  синапсов`;
-  basket.render({ listOfProducts: items });
+  if (items.length === 0) {
+    basket.listOfProducts = ["Корзина пуста"];
+    basket.buttonStatus = true;
+  } else {
+    basket.totalCounter = `${cart.getTotalPrice()}  синапсов`;
+    basket.render({ listOfProducts: items });
+    basket.buttonStatus = false;
+  }
 });
 
 events.on("product:delete", ({ id }) => {
@@ -145,26 +147,20 @@ events.on("product:delete", ({ id }) => {
   if (productToRemove) {
     cart.removeItem(productToRemove);
   }
-  const isEmpty = basket.isEmpty();
-  if (isEmpty) {
-    basket.buttonStatus = true;
-    basket.listOfProducts = ["Корзина пуста"];
-  } else {
-    basket.buttonStatus = false;
-  }
 });
 
-events.on("basket:arrange", () => {  
+events.on("basket:arrange", () => {
   modal.render({ content: order.render() });
   modal.openModal();
 });
 
-events.on("form:change", (event: { field: keyof IBuyer; value: string }) => {  
+events.on("form:change", (event: { field: keyof IBuyer; value: string }) => {
   buyer.setData({ [event.field]: event.value });
 });
 
 events.on("data:change", () => {
-  const { payment, address } = buyer.validate();
+  const validationResult = buyer.validate();
+  const { payment, address, email, phone } = validationResult;
   const isValid = !(payment || address);
   const formData = {
     payment: buyer.getData().payment,
@@ -174,7 +170,6 @@ events.on("data:change", () => {
   };
   order.render(formData);
   if (isValid === true) {
-    const { email, phone } = buyer.validate();
     const isValid = !(email || phone);
     const contactData = {
       email: buyer.getData().email,
@@ -197,7 +192,6 @@ events.on("contacts:submit", () => {
     total: cart.getTotalPrice(),
     items: cart.getItems().map((p) => p.id),
   };
-  console.log(orderServer)
   serverApi
     .sendOrder(orderServer)
     .then(() => {
@@ -213,5 +207,5 @@ events.on("contacts:submit", () => {
 });
 
 events.on("modal:close", () => {
-  modal.closeModal()
+  modal.closeModal();
 });

@@ -14,19 +14,15 @@ export class Buyer {
     this.events = events;
   }
 
-  getData(): {
-    payment: TPayment;
-    email: string;
-    phone: string;
-    address: string;
-  } {
-    return {
-      payment: this.payment,
-      email: this.email,
-      phone: this.phone,
-      address: this.address,
-    };
-  }
+  getData(): IBuyer {
+  return {
+    payment: this.payment,
+    email: this.email,
+    phone: this.phone,
+    address: this.address,
+  };
+}
+
 
   setData(data: Partial<IBuyer>): void {
     if (data.payment !== undefined) this.payment = data.payment;
@@ -45,7 +41,7 @@ export class Buyer {
   }
 
   validate(): ValidationResult {
-    let result: ValidationResult = {};
+    const result: ValidationResult = {};
 
     if (!this.payment) {
       result.payment = "Не выбран вид оплаты";

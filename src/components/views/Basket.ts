@@ -33,6 +33,8 @@ export class Basket extends Component<IBasket> { //Класс разметки �
       this.events.emit("basket:arrange");
       
     });
+
+    this.basketButton.disabled = true;
   }
 
   set listOfProducts(value: HTMLElement[]) {    
@@ -48,7 +50,7 @@ export class Basket extends Component<IBasket> { //Класс разметки �
   }
 
   public isEmpty(): boolean {
-    return this.basketList.children.length === 0;
+    return this.listOfProducts.length === 0;
   }
   
 }
