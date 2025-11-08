@@ -117,8 +117,7 @@ events.on("card:button", () => {
       modal.closeModal();
     } else {
       cart.addItem(selectedProduct);
-      let buttonText = "Удалить из корзины";
-      modal.content = cardPreview.render({ buttonText });
+      modal.closeModal();       // Наставник сказал, что надпись в кнопке не должна меняться сразу, модальное окно по условию задания должно просто закрываться. Сделал сейчас по заданию.
     }
   }
 });
@@ -159,24 +158,32 @@ events.on("form:change", (event: { field: keyof IBuyer; value: string }) => {
 });
 
 events.on("data:change", () => {
+  const data = buyer.getData();
+
   const validationResult = buyer.validate();
   const { payment, address, email, phone } = validationResult;
-  const isValid = !(payment || address);
+
+  const isFormValid = !(payment || address);
+
   const formData = {
-    payment: buyer.getData().payment,
-    address: buyer.getData().address,
-    valid: isValid,
+    payment: data.payment,
+    address: data.address,
+    valid: isFormValid,
     errors: payment || address,
   };
+
   order.render(formData);
-  if (isValid === true) {
-    const isValid = !(email || phone);
+
+  if (isFormValid) {
+    const isContactValid = !(email || phone);
+
     const contactData = {
-      email: buyer.getData().email,
-      phone: buyer.getData().phone,
-      valid: isValid,
+      email: data.email,
+      phone: data.phone,
+      valid: isContactValid,
       errors: email || phone,
     };
+
     contact.render(contactData);
   }
 });
